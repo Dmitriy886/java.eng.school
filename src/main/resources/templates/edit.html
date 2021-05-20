@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:text="${title}"></title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
+  </head>
+  <body class="page">
+    <section class="page__content page__content_auth">
+      <form th:action="@{/edit_profile}" th:object="${user}" method="post" class="edit-form">
+        <h1 class="auth-form-section-title edit-form-title">Редактирование</h1>
+        <p class="edit-form-subtitle">Аватар</p>
+        <input
+          class="auth-form-section-input edit-form-input"
+          type="text"
+          placeholder="Аватар"
+          th:value="${user.avatarUrl}"
+          th:field="*{avatarUrl}"
+        />
+        <p class="edit-form-subtitle">Имя</p>
+        <input
+          class="auth-form-section-input edit-form-input"
+          type="text"
+          placeholder="Имя"
+          th:value="${user.firstName}"
+          th:field="*{firstName}"
+        />
+        <p class="edit-form-subtitle">Фамилия</p>
+        <input
+          class="auth-form-section-input edit-form-input"
+          type="text"
+          placeholder="Фамилия"
+          th:value="${user.secondName}"
+          th:field="*{secondName}"
+        />
+        <div class="edit-form-btn-container">
+          <button class="auth-form-section-button" type="submit">Сохранить</button>
+          <a class="auth-form-section-button edit-form-btn-exit" th:href="@{/}">Назад</a>
+        </div>
+      </form>
+    </section>
+  </body>
+</html>

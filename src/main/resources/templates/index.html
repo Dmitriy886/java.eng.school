@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="${title}"></title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
+</head>
+<body class="page">
+  <section class="page__content">
+    <div class="profile-container">
+      <div class="profile-container-section">
+        <div
+          class="avatar user__avatar"
+          th:style="'background: center / cover url(' + ${user.avatarUrl} + ');'"
+        ></div>
+        <div class="user__name-container">
+          <p class="profile-section user__profile-section">Пользователь</p>
+          <p class="profile-username" th:text="${user.firstName + ' ' + user.secondName}"></p>
+          <a class="edit-btn" th:href="@{/edit}">Изменить</a>
+        </div>
+      </div>
+      <div class="profile-container-section profile-container-section_data ">
+        <div class="profile-data">
+          <p class="profile-data-item">Начало</p>
+          <p class="profile-data-value" id="profile-subscription-start" th:text="${user.subscriptionStart}"></p>
+        </div>
+        <div class="profile-data">
+          <p class="profile-data-item">Окончание</p>
+          <p class="profile-data-value" id="profile-subscription-end" th:text="${user.subscriptionEnd}"></p>
+        </div>
+        <div class="profile-data">
+          <p class="profile-data-item">Осталось</p>
+          <p class="profile-data-value" id="profile-subscription-days">... дней</p>
+        </div>
+      </div>
+      <a th:href="@{/payment}"><button class="program-action-btn program-action-btn_payment">Продлить подписку</button></a>
+    </div>
+    <div class="catalog-container">
+      <div class="catalog-bar">
+        <h1 class="catalog-bar__title">Учебные программы</h1>
+        <form th:action="@{/logout}" method="post" class="catalog-bar__exit-form"><button class="catalog-bar__exit" type="submit">Выйти <i class="ri-arrow-right-line catalog-bar__exit-icon"></i></button></form>
+      </div>
+      <div class="catalog-programs">
+        <form th:action="@{${el.getUsers().contains(user) == true ? '/subscription_remove/' + el.id : '/subscription_add/' + el.id}}" th:each="el : ${teachingPrograms}" method="post" class="program-container">
+          <div class="program-info">
+            <h2 th:text="${el.title}" class="program-title"></h2>
+            <p th:text="${el.description}" class="program-description"></p>
+            <div class="program-stats">
+              <p th:text="${el.hours} + ' часов'" class="program-stats-item"></p>
+              <hr class="program-stats-separator"/>
+              <p th:text="${el.teachings} + ' уроков'" class="program-stats-item"></p>
+            </div>
+          </div>
+          <div class="program-media">
+            <div class="program-image" th:style="'background: center / cover url(' + ${el.thumbnail} + ');'"></div>
+            <button th:class="${el.getUsers().contains(user) == true ? 'program-action-btn program-action-btn_active' : 'program-action-btn'}" th:text="${el.getUsers().contains(user) == true ? 'Отписаться' : 'Записаться'}" type="submit"></button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+  <script src="js/index.js"></script>
+</body>
+</html>

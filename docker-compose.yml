@@ -1,0 +1,22 @@
+version: '3.1'
+
+services: 
+  mysql:
+    image: mysql:latest
+    container_name: mysql-container
+    restart: always
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql/school.sql:/docker-entrypoint-initdb.d/school.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: school
+  school-spring:
+    build: .
+    container_name: school-spring-container
+    restart: always
+    depends_on: 
+      - mysql
+    ports: 
+      - 8080:3000
